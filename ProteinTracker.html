@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Protein Tracker</title>
+<style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+      max-width: 400px;
+      margin: auto;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+    
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 16px;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      transition: box-shadow 0.2s ease;
+    }
+    
+    input:focus, button:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(196, 112, 245, 0.3);
+    }
+    
+    button {
+      background-color: #c485ff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    
+    button:hover {
+      background-color: #804aff;
+    }
+    
+    #log {
+      margin-top: 30px;
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    
+    .entry {
+      border-bottom: 1px solid #eee;
+      padding: 10px 0;
+    }
+    
+    .entry:last-child {
+      border-bottom: none;
+    }
+    
+    .entry span {
+      display: block;
+      font-size: 15px;
+    }
+    
+    h3, h4 {
+      margin-bottom: 10px;
+    }
+</style>
+</head>
+<body>
+<h1>🍗 Protein Tracker 🥩</h1>
+
+<label for="proteinInput">Protein (g):</label>
+<input type="number" id="proteinInput" placeholder="e.g. 25">
+
+<label for="sourceInput">Source:</label>
+<input type="text" id="sourceInput" placeholder="e.g. Tuna">
+
+<button onclick="addProtein()">Add Entry</button>
+<button onclick="resetToday()">Reset Today</button>
+
+<div id="log">
+<h3>Today's Total: <span id="totalDisplay">0g</span></h3>
+<h4>Entries:</h4>
+<div id="entries"></div>
+</div>
+
+<script>
+const todayKey = `proteinEntries_${new Date().toLocaleDateString()}`;
+
+function getEntries() {
+    const data = localStorage.getItem(todayKey);
+    return data ? JSON.parse(data) : [];
+}
+
+function saveEntries(entries) {
+    localStorage.setItem(todayKey, JSON.stringify(entries));
+}
+
+function updateDisplay() {
+    const entries = getEntries();
+    const total = entries.reduce((sum, e) => sum + e.grams, 0);
+    document.getElementById('totalDisplay').textContent = total + "g";
+
+    const entriesDiv = document.getElementById('entries');
+    entriesDiv.innerHTML = '';
+    entries.forEach(entry => {
+        const div = document.createElement('div');
+        div.className = 'entry';
+        div.innerHTML = `<span><strong>${entry.grams}g</strong> from ${entry.source}</span>`;
+        entriesDiv.appendChild(div);
+    });
+}
+
+function addProtein() {
+    const grams = parseInt(document.getElementById('proteinInput').value);
+    const source = document.getElementById('sourceInput').value;
+    if (!isNaN(grams) && grams > 0 && source) {
+        const entries = getEntries();
+        entries.push({ grams, source });
+        saveEntries(entries);
+        document.getElementById('proteinInput').value = '';
+        document.getElementById('sourceInput').value = '';
+        updateDisplay();
+    }
+}
+
+function resetToday() {
+localStorage.removeItem(todayKey);
+updateDisplay();
+}
+
+updateDisplay();
+</script>
+</body>
+</html>
