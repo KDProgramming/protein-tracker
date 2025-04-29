@@ -80,6 +80,9 @@
 <label for="proteinInput">Protein (g):</label>
 <input type="number" id="proteinInput" placeholder="e.g. 25">
 
+<label for="caloriesInput">Calories:</label>
+<input type="number" id="caloriesInput" placeholder="e.g. 200">
+
 <label for="sourceInput">Source:</label>
 <input type="text" id="sourceInput" placeholder="e.g. Tuna">
 
@@ -87,7 +90,7 @@
 <button onclick="resetToday()">Reset Today</button>
 
 <div id="log">
-<h3>Today's Total: <span id="totalDisplay">0g</span></h3>
+<h3>Today's Total: <span id="totalDisplay">0g Protein, 0 Calories</span></h3>
 <h4>Entries:</h4>
 <div id="entries"></div>
 </div>
@@ -106,15 +109,16 @@ function saveEntries(entries) {
 
 function updateDisplay() {
     const entries = getEntries();
-    const total = entries.reduce((sum, e) => sum + e.grams, 0);
-    document.getElementById('totalDisplay').textContent = total + "g";
+    const totalProtein = entries.reduce((sum, e) => sum + e.grams, 0);
+    const totalCalories = entries.reduce((sum, e) => sum + e.calories, 0);
+    document.getElementById('totalDisplay').textContent = `${totalProtein}g Protein, ${totalCalories} Calories`;
 
     const entriesDiv = document.getElementById('entries');
     entriesDiv.innerHTML = '';
     entries.forEach(entry => {
         const div = document.createElement('div');
         div.className = 'entry';
-        div.innerHTML = `<span><strong>${entry.grams}g</strong> from ${entry.source}</span>`;
+        div.innerHTML = `<span><strong>${entry.grams}g</strong> from ${entry.source} — <strong>${entry.calories}</strong> cal</span>`;
         entriesDiv.appendChild(div);
     });
 }
@@ -122,12 +126,14 @@ function updateDisplay() {
 function addProtein() {
     const grams = parseInt(document.getElementById('proteinInput').value);
     const source = document.getElementById('sourceInput').value;
-    if (!isNaN(grams) && grams > 0 && source) {
+    const calories = parseInt(document.getElementById('caloriesInput').value);
+    if (!isNaN(grams) && grams > 0 && source && !isNaN(calories) && calories > 0) {
         const entries = getEntries();
-        entries.push({ grams, source });
+        entries.push({ grams, source, calories });
         saveEntries(entries);
         document.getElementById('proteinInput').value = '';
         document.getElementById('sourceInput').value = '';
+        document.getElementById('caloriesInput').value = '';
         updateDisplay();
     }
 }
