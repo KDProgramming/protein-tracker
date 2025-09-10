@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Protein Tracker</title>
+<title>Protein & Push-up Tracker</title>
 <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -72,10 +72,37 @@
     h3, h4 {
       margin-bottom: 10px;
     }
+
+    /* Push-up counter */
+    #pushupCounter {
+      margin-top: 30px;
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    #pushupCounter h3 {
+      margin-bottom: 15px;
+    }
+
+    .pushup-controls {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .pushup-controls button {
+      width: 60px;
+      padding: 10px;
+      font-size: 20px;
+      border-radius: 50%;
+    }
 </style>
 </head>
 <body>
-<h1>🍗 Protein Tracker 🥩</h1>
+<h1>🍗 Protein & Push-up Tracker 💪</h1>
 
 <label for="proteinInput">Protein (g):</label>
 <input type="number" id="proteinInput" placeholder="e.g. 25">
@@ -95,9 +122,19 @@
 <div id="entries"></div>
 </div>
 
+<div id="pushupCounter">
+  <h3>Push-ups: <span id="pushupCount">0</span></h3>
+  <div class="pushup-controls">
+    <button onclick="changePushups(-1)">➖</button>
+    <button onclick="changePushups(1)">➕</button>
+  </div>
+</div>
+
 <script>
 const todayKey = `proteinEntries_${new Date().toLocaleDateString()}`;
+const pushupKey = `pushups_${new Date().toLocaleDateString()}`;
 
+// Protein Tracker Functions
 function getEntries() {
     const data = localStorage.getItem(todayKey);
     return data ? JSON.parse(data) : [];
@@ -121,6 +158,8 @@ function updateDisplay() {
         div.innerHTML = `<span><strong>${entry.grams}g</strong> from ${entry.source} — <strong>${entry.calories}</strong> cal</span>`;
         entriesDiv.appendChild(div);
     });
+
+    updatePushups();
 }
 
 function addProtein() {
@@ -139,10 +178,33 @@ function addProtein() {
 }
 
 function resetToday() {
-localStorage.removeItem(todayKey);
-updateDisplay();
+    localStorage.removeItem(todayKey);
+    localStorage.removeItem(pushupKey);
+    updateDisplay();
 }
 
+// Push-up Counter Functions
+function getPushups() {
+    return parseInt(localStorage.getItem(pushupKey)) || 0;
+}
+
+function savePushups(count) {
+    localStorage.setItem(pushupKey, count);
+}
+
+function updatePushups() {
+    const count = getPushups();
+    document.getElementById('pushupCount').textContent = count;
+}
+
+function changePushups(amount) {
+    let count = getPushups() + amount;
+    if (count < 0) count = 0;
+    savePushups(count);
+    updatePushups();
+}
+
+// Initialize
 updateDisplay();
 </script>
 </body>
