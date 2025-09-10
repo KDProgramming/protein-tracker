@@ -16,7 +16,7 @@
     
     h1 {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
     
     input, select, button {
@@ -48,7 +48,7 @@
     }
     
     #log {
-      margin-top: 30px;
+      margin-top: 20px;
       background-color: #fff;
       padding: 15px;
       border-radius: 10px;
@@ -75,34 +75,43 @@
 
     /* Push-up counter */
     #pushupCounter {
-      margin-top: 30px;
+      margin-bottom: 20px;
       background-color: #fff;
-      padding: 15px;
-      border-radius: 10px;
+      padding: 10px;
+      border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       text-align: center;
     }
 
     #pushupCounter h3 {
-      margin-bottom: 15px;
+      margin-bottom: 8px;
+      font-size: 18px;
     }
 
     .pushup-controls {
       display: flex;
       justify-content: center;
-      gap: 15px;
+      gap: 10px;
     }
 
     .pushup-controls button {
-      width: 60px;
-      padding: 10px;
-      font-size: 20px;
-      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      font-size: 18px;
+      border-radius: 8px;
     }
 </style>
 </head>
 <body>
 <h1>🍗 Health Tracker 💪</h1>
+
+<div id="pushupCounter">
+  <h3>Push-ups: <span id="pushupCount">0</span></h3>
+  <div class="pushup-controls">
+    <button onclick="changePushups(-1)">➖</button>
+    <button onclick="changePushups(1)">➕</button>
+  </div>
+</div>
 
 <label for="proteinInput">Protein (g):</label>
 <input type="number" id="proteinInput" placeholder="e.g. 25">
@@ -120,14 +129,6 @@
 <h3>Today's Total: <span id="totalDisplay">0g Protein, 0 Calories</span></h3>
 <h4>Entries:</h4>
 <div id="entries"></div>
-</div>
-
-<div id="pushupCounter">
-  <h3>Push-ups: <span id="pushupCount">0</span></h3>
-  <div class="pushup-controls">
-    <button onclick="changePushups(-1)">➖</button>
-    <button onclick="changePushups(1)">➕</button>
-  </div>
 </div>
 
 <script>
