@@ -73,26 +73,31 @@
       margin-bottom: 10px;
     }
 
-    /* Push-up counter */
+    /* Push-up + Abs box */
     #pushupCounter {
       margin-bottom: 20px;
       background-color: #fff;
       padding: 10px;
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      text-align: center;
+    }
+
+    .pushup-abs-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     #pushupCounter h3 {
-      margin-bottom: 8px;
       font-size: 18px;
+      margin: 0;
     }
 
     .pushup-controls {
       display: flex;
       justify-content: center;
       gap: 10px;
-      margin-bottom: 10px;
+      margin-top: 8px;
     }
 
     .pushup-controls button {
@@ -104,10 +109,8 @@
 
     .ab-check {
       display: flex;
-      justify-content: center;
       align-items: center;
-      gap: 8px;
-      margin-top: 8px;
+      gap: 6px;
       font-size: 16px;
     }
 </style>
@@ -116,14 +119,16 @@
 <h1>🍗 Health Tracker 💪</h1>
 
 <div id="pushupCounter">
-  <h3>Push-ups: <span id="pushupCount">0</span></h3>
+  <div class="pushup-abs-row">
+    <h3>Push-ups: <span id="pushupCount">0</span></h3>
+    <div class="ab-check">
+      <input type="checkbox" id="absCheck" onchange="toggleAbs()">
+      <label for="absCheck">Abs Done</label>
+    </div>
+  </div>
   <div class="pushup-controls">
     <button onclick="changePushups(-1)">➖</button>
     <button onclick="changePushups(1)">➕</button>
-  </div>
-  <div class="ab-check">
-    <input type="checkbox" id="absCheck" onchange="toggleAbs()">
-    <label for="absCheck">Abs Done</label>
   </div>
 </div>
 
