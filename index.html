@@ -111,15 +111,20 @@
     }
 
     /* Abs checkbox */
-    .ab-check {
+    .abs-box {
       display: flex;
       justify-content: center;
+      align-items: center;
+      height: 100%;   /* fills available height */
+      text-align: center;
+    }
+
+    .ab-check {
+      display: flex;
       align-items: center;
       gap: 10px;
       font-size: 18px;
       font-weight: bold;
-      height: 100%;
-      padding: 10px;
     }
 </style>
 </head>
@@ -135,12 +140,12 @@
     </div>
   </div>
 
-  <div class="tracker-box">
-    <div class="ab-check">
-        <h3 for="absCheck">Abs Done</h3>
-      <input type="checkbox" id="absCheck" onchange="toggleAbs()">
+  <div class="tracker-box abs-box">
+      <div class="ab-check">
+        <label for="absCheck">Abs Done</label>
+        <input type="checkbox" id="absCheck" onchange="toggleAbs()">
+      </div>
     </div>
-  </div>
 </div>
 
 <label for="proteinInput">Protein (g):</label>
