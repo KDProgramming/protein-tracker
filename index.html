@@ -8,7 +8,7 @@
     body {
       font-family: 'Segoe UI', sans-serif;
       padding: 20px;
-      max-width: 400px;
+      max-width: 420px;
       margin: auto;
       background-color: #f8f9fa;
       color: #333;
@@ -73,24 +73,27 @@
       margin-bottom: 10px;
     }
 
-    /* Push-up + Abs box */
-    #pushupCounter {
+    /* Container for pushups + abs side by side */
+    .tracker-row {
+      display: flex;
+      gap: 10px;
       margin-bottom: 20px;
+    }
+
+    /* Box style (shared by pushup + abs) */
+    .tracker-box {
+      flex: 1;
       background-color: #fff;
-      padding: 10px;
+      padding: 12px;
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      text-align: center;
     }
 
-    .pushup-abs-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
+    /* Push-up counter */
     #pushupCounter h3 {
+      margin-bottom: 8px;
       font-size: 18px;
-      margin: 0;
     }
 
     .pushup-controls {
@@ -107,28 +110,34 @@
       border-radius: 8px;
     }
 
+    /* Abs checkbox */
     .ab-check {
       display: flex;
+      justify-content: center;
       align-items: center;
       gap: 6px;
       font-size: 16px;
+      height: 100%;
     }
 </style>
 </head>
 <body>
 <h1>🍗 Health Tracker 💪</h1>
 
-<div id="pushupCounter">
-  <div class="pushup-abs-row">
+<div class="tracker-row">
+  <div id="pushupCounter" class="tracker-box">
     <h3>Push-ups: <span id="pushupCount">0</span></h3>
+    <div class="pushup-controls">
+      <button onclick="changePushups(-1)">➖</button>
+      <button onclick="changePushups(1)">➕</button>
+    </div>
+  </div>
+
+  <div class="tracker-box">
     <div class="ab-check">
       <input type="checkbox" id="absCheck" onchange="toggleAbs()">
       <label for="absCheck">Abs Done</label>
     </div>
-  </div>
-  <div class="pushup-controls">
-    <button onclick="changePushups(-1)">➖</button>
-    <button onclick="changePushups(1)">➕</button>
   </div>
 </div>
 
@@ -145,9 +154,9 @@
 <button onclick="resetToday()">Reset Today</button>
 
 <div id="log">
-<h3>Today's Total: <span id="totalDisplay">0g Protein, 0 Calories</span></h3>
-<h4>Entries:</h4>
-<div id="entries"></div>
+  <h3>Today's Total: <span id="totalDisplay">0g Protein, 0 Calories</span></h3>
+  <h4>Entries:</h4>
+  <div id="entries"></div>
 </div>
 
 <script>
