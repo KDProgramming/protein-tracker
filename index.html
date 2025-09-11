@@ -92,6 +92,7 @@
       display: flex;
       justify-content: center;
       gap: 10px;
+      margin-bottom: 10px;
     }
 
     .pushup-controls button {
@@ -99,6 +100,15 @@
       height: 45px;
       font-size: 18px;
       border-radius: 8px;
+    }
+
+    .ab-check {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      font-size: 16px;
     }
 </style>
 </head>
@@ -110,6 +120,10 @@
   <div class="pushup-controls">
     <button onclick="changePushups(-1)">➖</button>
     <button onclick="changePushups(1)">➕</button>
+  </div>
+  <div class="ab-check">
+    <input type="checkbox" id="absCheck" onchange="toggleAbs()">
+    <label for="absCheck">Abs Done</label>
   </div>
 </div>
 
@@ -134,6 +148,7 @@
 <script>
 const todayKey = `proteinEntries_${new Date().toLocaleDateString()}`;
 const pushupKey = `pushups_${new Date().toLocaleDateString()}`;
+const absKey = `abs_${new Date().toLocaleDateString()}`;
 
 // Protein Tracker Functions
 function getEntries() {
@@ -161,6 +176,7 @@ function updateDisplay() {
     });
 
     updatePushups();
+    updateAbs();
 }
 
 function addProtein() {
@@ -181,6 +197,7 @@ function addProtein() {
 function resetToday() {
     localStorage.removeItem(todayKey);
     localStorage.removeItem(pushupKey);
+    localStorage.removeItem(absKey);
     updateDisplay();
 }
 
@@ -203,6 +220,17 @@ function changePushups(amount) {
     if (count < 0) count = 0;
     savePushups(count);
     updatePushups();
+}
+
+// Abs Checkbox Functions
+function updateAbs() {
+    const done = localStorage.getItem(absKey) === "true";
+    document.getElementById('absCheck').checked = done;
+}
+
+function toggleAbs() {
+    const checked = document.getElementById('absCheck').checked;
+    localStorage.setItem(absKey, checked);
 }
 
 // Initialize
